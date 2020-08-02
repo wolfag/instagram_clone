@@ -7,14 +7,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Animated,
 } from 'react-native';
-
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import waitingImg from '../../assets/icons/waiting.png';
 import logoImg from '../../assets/images/logo.png';
-
+import Loading from '../../components/Loading';
 import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
+import {navigation} from '../../navigation/rootNavigation';
 
 const LoginScreen = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,18 +20,6 @@ const LoginScreen = (): JSX.Element => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isValid, setIsValid] = useState<boolean>(false);
-
-  const _loadingAnimValue = new Animated.Value(0);
-  const _animationLoading = () => {
-    Animated.timing(_loadingAnimValue, {
-      useNativeDriver: true,
-      toValue: 1,
-      duration: 400,
-    }).start(() => {
-      _loadingAnimValue.setValue(0);
-      loading && _animationLoading();
-    });
-  };
 
   const _isValid = useCallback(() => {
     if (username?.length > 0 && password?.length > 0) {
@@ -68,35 +54,13 @@ const LoginScreen = (): JSX.Element => {
   }, [hidePassword]);
 
   const _onLogin = useCallback(async () => {}, []);
-  const _onRegister = useCallback(async () => {}, []);
+  const _onRegister = useCallback(async () => {
+    navigation.navigate('RegisterScreen');
+  }, []);
 
-  console.log({isValid});
   return (
     <SafeAreaView style={styles.container}>
-      {loading && (
-        <View style={styles.loadingWrapper}>
-          <View style={styles.loading}>
-            <Animated.Image
-              source={waitingImg}
-              onLayout={_animationLoading}
-              style={[
-                styles.animateLoading,
-                {
-                  transform: [
-                    {
-                      rotate: _loadingAnimValue.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: ['0deg', '360deg'],
-                      }),
-                    },
-                  ],
-                },
-              ]}
-            />
-            <Text style={styles.logining}>Logining...</Text>
-          </View>
-        </View>
-      )}
+      <Loading loading={loading} label="Loading..." />
       <View style={styles.languageChooser}>
         <TouchableOpacity style={styles.btnCurLanguage}>
           <Text style={styles.curLanguage}>Tieng Viet (Viet Nam)</Text>
