@@ -1,60 +1,20 @@
-import React, {useCallback, useMemo, useState} from 'react';
-import {
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import logoImg from '../../assets/images/logo.png';
+import Button from '../../components/Button';
 import Loading from '../../components/Loading';
 import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
 import {navigation} from '../../navigation/rootNavigation';
+import LoginForm from './components/LoginForm';
 
 const LoginScreen = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [hidePassword, setHidePassword] = useState<boolean>(true);
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [isValid, setIsValid] = useState<boolean>(false);
 
-  const _isValid = useCallback(() => {
-    if (username?.length > 0 && password?.length > 0) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
-  }, [username, password]);
-
-  const _onChangeUsername = useCallback(
-    (text: string): void => {
-      setUsername(text);
-      _isValid();
-    },
-    [_isValid],
-  );
-
-  const _onChangePassword = useCallback(
-    (text: string): void => {
-      setPassword(text);
-      _isValid();
-    },
-    [_isValid],
-  );
-
-  const _onTogglePasswordIcon = useCallback(() => {
-    setHidePassword(!hidePassword);
-  }, [hidePassword]);
-
-  const _passwordIcon = useMemo(() => {
-    return hidePassword ? 'eye-off-outline' : 'eye-outline';
-  }, [hidePassword]);
-
-  const _onLogin = useCallback(async () => {}, []);
-  const _onRegister = useCallback(async () => {
+  const _onLogin = useCallback(async (values) => {
+    console.log({values});
+  }, []);
+  const _onRegister = useCallback(() => {
     navigation.navigate('RegisterScreen');
   }, []);
 
@@ -62,80 +22,41 @@ const LoginScreen = (): JSX.Element => {
     <SafeAreaView style={styles.container}>
       <Loading loading={loading} label="Loading..." />
       <View style={styles.languageChooser}>
-        <TouchableOpacity style={styles.btnCurLanguage}>
+        <Button link style={styles.btnCurLanguage}>
           <Text style={styles.curLanguage}>Tieng Viet (Viet Nam)</Text>
           <MaterialCommunityIcons name="chevron-down" size={20} color="#333" />
-        </TouchableOpacity>
+        </Button>
       </View>
       <View style={styles.centerContainer}>
         <View style={styles.logoWrapper}>
           <Image style={styles.logo} source={logoImg} resizeMode="contain" />
         </View>
-        <View style={styles.loginForm}>
-          <View style={styles.textInputWrapper}>
-            <TextInput
-              autoCapitalize="none"
-              value={username}
-              placeholder="Username, email or phone number"
-              onChangeText={_onChangeUsername}
-              style={styles.input}
-            />
-          </View>
-          <View style={styles.textInputWrapper}>
-            <TextInput
-              value={password}
-              secureTextEntry={hidePassword}
-              placeholder="Password"
-              onChangeText={_onChangePassword}
-              style={styles.input}
-            />
-            <TouchableOpacity
-              onPress={_onTogglePasswordIcon}
-              style={styles.hidePasswordIcon}>
-              <MaterialCommunityIcons
-                name={_passwordIcon}
-                size={20}
-                color="#333"
-              />
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={_onLogin}
-            disabled={!isValid}
-            style={[styles.btnLogin, {opacity: isValid ? 1 : 0.6}]}>
-            <Text style={styles.login}>Login</Text>
-          </TouchableOpacity>
-        </View>
+        <LoginForm onSubmit={_onLogin} />
         <View style={styles.otherOptionsWrapper}>
-          <TouchableOpacity style={styles.forgotPassword}>
-            <Text style={styles.forgetTextWrapper}>
-              <Text style={styles.forgetText}>
-                Did your forget login information?
-              </Text>{' '}
-              Get helping to login
+          <View style={styles.forgotPassword}>
+            <Text style={styles.forgetText}>
+              Did your forget login information?
             </Text>
-          </TouchableOpacity>
+            <Button link label="Get helping to login" />
+          </View>
           <View style={styles.divideLine}>
             <View style={styles.orTextWrapper}>
               <Text style={styles.orText}>OR</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.btnLoginWithFacebook}>
+          <Button link style={styles.btnLoginWithFacebook}>
             <MaterialCommunityIcons name="facebook" size={20} color="#318bfb" />
             <Text style={styles.loginFacebookText}>Login with Facebook</Text>
-          </TouchableOpacity>
+          </Button>
         </View>
       </View>
-      <TouchableOpacity
-        onPress={_onRegister}
-        style={styles.registerWrapper}
-        activeOpacity={1}>
+
+      <Button link onPress={_onRegister} style={styles.registerWrapper}>
         <Text style={styles.dontHaveAccTextWrapper}>
           <Text style={styles.dontHaveAccText}>Don't have account?</Text>{' '}
           Register now.
         </Text>
-      </TouchableOpacity>
+      </Button>
     </SafeAreaView>
   );
 };
@@ -174,38 +95,6 @@ const styles = StyleSheet.create({
   },
   loginForm: {
     width: SCREEN_WIDTH * 0.9,
-  },
-  textInputWrapper: {
-    position: 'relative',
-    width: '100%',
-    height: 44,
-    borderRadius: 5,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    marginVertical: 7.5,
-  },
-  hidePasswordIcon: {
-    position: 'absolute',
-    height: 30,
-    width: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    right: 5,
-    top: (44 - 30) / 2,
-  },
-  input: {
-    width: '100%',
-    height: '100%',
-    paddingHorizontal: 15,
-  },
-  btnLogin: {
-    marginTop: 7.5,
-    width: '100%',
-    height: 44,
-    borderRadius: 5,
-    backgroundColor: '#318bfb',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   otherOptionsWrapper: {
     width: SCREEN_WIDTH * 0.9,
@@ -249,15 +138,6 @@ const styles = StyleSheet.create({
     borderTopColor: '#ddd',
     borderTopWidth: 1,
   },
-  loadingWrapper: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-    position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    zIndex: 99,
-  },
   loading: {
     flexDirection: 'row',
     padding: 15,
@@ -265,12 +145,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
   },
-  animateLoading: {width: 30, height: 30, marginRight: 10},
-  logining: {
-    fontWeight: '500',
-  },
-  login: {fontSize: 16, color: '#fff', fontWeight: '500'},
-  forgetTextWrapper: {textAlign: 'center', fontSize: 12, fontWeight: '600'},
   forgetText: {fontWeight: '500', color: '#333'},
   loginFacebookText: {color: '#318bfb', fontWeight: 'bold'},
   dontHaveAccTextWrapper: {
