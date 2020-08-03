@@ -9,6 +9,8 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import {styles as commonStyles} from './styles';
+
 export interface InputProps {
   name: string;
   values: object;
@@ -66,8 +68,8 @@ const Input = ({
   }, [hidePassword]);
 
   return (
-    <View style={style}>
-      <View style={styles.container}>
+    <View style={[styles.container, style]}>
+      <View style={styles.wrapper}>
         <TextInput
           style={styles.input}
           value={values[name]}
@@ -95,7 +97,9 @@ const Input = ({
         )}
       </View>
       {showError && touched && touched[name] && errors && errors[name] ? (
-        <Text style={styles.errorText}>{touched[name] && errors[name]}</Text>
+        <Text style={commonStyles.errorText}>
+          {touched[name] && errors[name]}
+        </Text>
       ) : undefined}
     </View>
   );
@@ -105,6 +109,10 @@ export default Input;
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
+    marginBottom: 10,
+  },
+  wrapper: {
     borderRadius: 5,
     overflow: 'hidden',
     borderColor: '#ddd',
@@ -117,10 +125,6 @@ const styles = StyleSheet.create({
     height: 44,
     paddingHorizontal: 15,
     backgroundColor: 'rgb(242,242,242)',
-  },
-  errorText: {
-    color: 'red',
-    marginVertical: 5,
   },
   tailIcon: {
     height: 44,

@@ -2,6 +2,8 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Input from './Input';
 
+import {styles as commonStyles} from './styles';
+
 export interface PhoneInputProps {
   name: string;
   values: object;
@@ -23,8 +25,8 @@ const PhoneInput = ({
 }: PhoneInputProps) => {
   console.log({values, touched, errors});
   return (
-    <View style={style}>
-      <View style={styles.container}>
+    <View style={[styles.container, style]}>
+      <View style={styles.wrapper}>
         <TouchableOpacity style={styles.btnPhoneCode}>
           <Text style={styles.phoneCode}>VN +84</Text>
         </TouchableOpacity>
@@ -37,7 +39,9 @@ const PhoneInput = ({
         />
       </View>
       {showError && touched[name] && errors[name] ? (
-        <Text style={styles.errorText}>{touched[name] && errors[name]}</Text>
+        <Text style={commonStyles.errorText}>
+          {touched[name] && errors[name]}
+        </Text>
       ) : undefined}
     </View>
   );
@@ -47,6 +51,10 @@ export default PhoneInput;
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
+    marginBottom: 10,
+  },
+  wrapper: {
     borderRadius: 5,
     overflow: 'hidden',
     borderColor: '#ddd',
@@ -58,6 +66,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    marginBottom: 0,
   },
   phoneCode: {fontWeight: '600', color: '#666'},
   btnPhoneCode: {
@@ -65,9 +74,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 10,
-  },
-  errorText: {
-    color: 'red',
-    marginVertical: 5,
   },
 });
