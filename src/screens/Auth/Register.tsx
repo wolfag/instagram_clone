@@ -3,12 +3,8 @@ import * as yup from 'yup';
 import {SafeAreaView, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import {SCREEN_WIDTH, SCREEN_HEIGHT, STATUS_BAR_HEIGHT} from '../../constants';
 import RegisterFormStep1 from './components/RegisterFormStep1';
+import RegisterFormStep2 from './components/RegisterFormStep2';
 
-export interface RegisterFormValueStep2 {
-  fullname: string;
-  password: string;
-  savePassword: string;
-}
 export interface RegisterFormValueStep3 {
   date: number;
   month: number;
@@ -31,15 +27,6 @@ const RegisterScreen = (): JSX.Element => {
 
   const [step, setStep] = useState<number>(1);
   const _onNextStep = useCallback((): void => {});
-
-  const Schemastep2 = yup.object().shape({
-    fullname: yup.string().matches(/\w+/).required(),
-    password: yup
-      .string()
-      .min(7, 'Password must be more than 6 character')
-      .required(),
-    savePassword: yup.boolean().required(),
-  });
 
   const Schemastep3 = yup.object().shape({});
 
@@ -69,6 +56,14 @@ const RegisterScreen = (): JSX.Element => {
         ]}>
         {step === 1 && (
           <RegisterFormStep1
+            onSubmit={(e) => {
+              console.log({e});
+              setStep(step + 1);
+            }}
+          />
+        )}
+        {step === 2 && (
+          <RegisterFormStep2
             onSubmit={(e) => {
               console.log({e});
             }}

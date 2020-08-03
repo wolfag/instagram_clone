@@ -1,10 +1,9 @@
 import {Formik, FormikProps} from 'formik';
 import React, {useCallback, useMemo, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import Animated from 'react-native-reanimated';
 import Feather from 'react-native-vector-icons/Feather';
 import * as yup from 'yup';
-import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../../constants';
+import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import PhoneInput from '../../../components/PhoneInput';
 
@@ -79,7 +78,7 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
           <View>
             <Feather name="user" size={100} />
           </View>
-          <View style={styles.usernameTypesWrapper}>
+          <View style={styles.formBody}>
             <View style={styles.navigationTabs}>
               <TouchableOpacity
                 onPress={_onToggleTab(1)}
@@ -102,38 +101,33 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
               <View style={[styles.activeTypeLine, {left: _activeTypeLine}]} />
             </View>
 
-            <View style={styles.usernameForm}>
+            <View style={styles.formFields}>
               {tab === 1 && (
-                <View style={styles.usePhone}>
-                  <PhoneInput
-                    name="phone"
-                    autoFocus={true}
-                    placeholder="Phone"
-                    keyboardType="number-pad"
-                    returnKeyType="done"
-                    {...rest}
-                  />
-                </View>
+                <PhoneInput
+                  name="phone"
+                  autoFocus={true}
+                  placeholder="Phone"
+                  keyboardType="number-pad"
+                  returnKeyType="done"
+                  {...rest}
+                />
               )}
               {tab === 2 && (
-                <View style={styles.useEmail}>
-                  <Input
-                    name="email"
-                    autoFocus={true}
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    returnKeyType="done"
-                    {...rest}
-                  />
-                </View>
+                <Input
+                  name="email"
+                  autoFocus={true}
+                  placeholder="Email"
+                  keyboardType="email-address"
+                  returnKeyType="done"
+                  {...rest}
+                />
               )}
 
-              <TouchableOpacity
-                style={[styles.btnNextStep]}
+              <Button
                 disabled={!isValid || !dirty}
-                onPress={handleSubmit}>
-                <Animated.Text style={styles.nextText}>Next</Animated.Text>
-              </TouchableOpacity>
+                label="Next"
+                onPress={handleSubmit}
+              />
             </View>
           </View>
         </>
@@ -145,18 +139,7 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
 export default RegisterFormStep1;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-  },
-  centerContainer: {
-    width: SCREEN_WIDTH * 0.9,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  usernameTypesWrapper: {
+  formBody: {
     width: '100%',
     marginVertical: 10,
     justifyContent: 'center',
@@ -186,80 +169,8 @@ const styles = StyleSheet.create({
   tabTitle: {
     fontWeight: '600',
   },
-  usernameForm: {
+  formFields: {
     marginVertical: 20,
     width: '100%',
   },
-  usePhone: {
-    width: '100%',
-  },
-  useEmail: {
-    width: '100%',
-  },
-  inputWrapper: {
-    borderRadius: 5,
-    overflow: 'hidden',
-    borderColor: '#ddd',
-    borderWidth: 1,
-    width: '100%',
-    position: 'relative',
-  },
-  input: {
-    width: '100%',
-    height: 44,
-    paddingHorizontal: 15,
-    backgroundColor: 'rgb(242,242,242)',
-  },
-  loadingIcon: {
-    width: 36,
-    height: 36,
-  },
-  btnPhoneCode: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    zIndex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 44,
-    width: 80,
-  },
-  phoneCodeTitleWrapper: {
-    paddingVertical: 5,
-    borderRightWidth: 1,
-    borderRightColor: '#ddd',
-    paddingHorizontal: 10,
-  },
-  inputPhone: {
-    width: '100%',
-    height: 44,
-    fontSize: 16,
-    paddingRight: 44,
-    paddingLeft: 90,
-    backgroundColor: 'rgb(242,242,242)',
-  },
-  btnReset: {
-    height: 44,
-    width: 44,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
-  errorText: {
-    color: 'red',
-    marginVertical: 5,
-  },
-  btnNextStep: {
-    width: '100%',
-    height: 46,
-    backgroundColor: '#318bfb',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 20,
-    borderRadius: 5,
-  },
-  phoneCode: {fontWeight: '600', color: '#666'},
-  nextText: {fontWeight: '600', color: '#fff'},
 });
