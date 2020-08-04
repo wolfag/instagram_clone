@@ -4,6 +4,7 @@ import {SafeAreaView, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import {SCREEN_WIDTH, SCREEN_HEIGHT, STATUS_BAR_HEIGHT} from '../../constants';
 import RegisterFormStep1 from './components/RegisterFormStep1';
 import RegisterFormStep2 from './components/RegisterFormStep2';
+import RegisterFormStep3 from './components/RegisterFormStep3';
 
 export interface RegisterFormValueStep3 {
   date: number;
@@ -25,10 +26,8 @@ const RegisterScreen = (): JSX.Element => {
     year: 2020,
   });
 
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(3);
   const _onNextStep = useCallback((): void => {});
-
-  const Schemastep3 = yup.object().shape({});
 
   const _height = useMemo(() => {
     if (step > 1) {
@@ -64,6 +63,14 @@ const RegisterScreen = (): JSX.Element => {
         )}
         {step === 2 && (
           <RegisterFormStep2
+            onSubmit={(e) => {
+              console.log({e});
+              setStep(step + 1);
+            }}
+          />
+        )}
+        {step === 3 && (
+          <RegisterFormStep3
             onSubmit={(e) => {
               console.log({e});
             }}
