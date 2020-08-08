@@ -1,14 +1,27 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewStyle,
+  StyleProp,
+} from 'react-native';
 
 export interface ButtonProps {
-  style?: object;
+  style?: StyleProp<ViewStyle>;
   label?: string;
   link?: boolean;
-  children?: JSX.Element;
+  children?: JSX.Element | JSX.Element[];
 }
 
-const Button = ({style, label, link, children, ...rest}: ButtonProps) => {
+const Button = ({
+  style,
+  label,
+  link,
+  children,
+  ...rest
+}: ButtonProps & TouchableOpacityProps) => {
   const btnStyle = link ? styles.link : styles.btn;
   const labelStyle = link ? styles.labelLink : styles.label;
   return (

@@ -1,17 +1,20 @@
-import React, {useMemo, useCallback} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FormikProps, FormikValues} from 'formik';
+import React, {useCallback, useMemo} from 'react';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {styles as commonStyles} from './styles';
 
 export interface CheckboxProps {
   name: string;
-  values: object;
-  errors?: object;
-  touched?: object;
-  style?: object;
+  style?: StyleProp<ViewStyle>;
   label?: string;
-  setFieldValue?: any;
-  handleBlur?: any;
   showError?: boolean;
 }
 
@@ -24,7 +27,7 @@ const Checkbox = ({
   touched,
   setFieldValue,
   showError,
-}: CheckboxProps) => {
+}: CheckboxProps & FormikProps<FormikValues>) => {
   const _checkColor = useMemo(() => {
     const value = values[name];
     return value ? '#318bfb' : '#666';

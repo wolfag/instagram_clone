@@ -1,4 +1,4 @@
-import {Formik, FormikProps} from 'formik';
+import {Formik, FormikProps, FormikValues, FormikHelpers} from 'formik';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import * as yup from 'yup';
@@ -12,10 +12,13 @@ export interface RegisterFormValueStep3 {
   year: number;
 }
 
-const initialValues = {date: 1, month: 1, year: 2020};
+const initialValues: RegisterFormValueStep3 = {date: 1, month: 1, year: 2020};
 
 export interface RegisterFormStep3Props {
-  onSubmit: any;
+  onSubmit: (
+    values: RegisterFormValueStep3,
+    formikHelpers: FormikHelpers<RegisterFormValueStep3>,
+  ) => void | Promise<any>;
 }
 
 const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
@@ -32,65 +35,61 @@ const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
       onSubmit={onSubmit}
       validationSchema={validationSchema}
       initialValues={initialValues}>
-      {({
-        handleSubmit,
-        isValid,
-        dirty,
-        handleChange,
-        values,
-        ...rest
-      }: FormikProps<RegisterFormValueStep3>) => (
-        <View style={styles.formContainer}>
-          <View>
-            <Image
-              style={styles.birthdayIcon}
-              source={require('../../../assets/images/rocket.png')}
-            />
-          </View>
-          <Text style={styles.formTitle}>ADD BIRTHDAY</Text>
-          <View style={styles.descriptionWrapper}>
-            <Text style={styles.description}>
-              This won't be part of your public profile. Why do I need to
-              provide my birthday?
-            </Text>
-          </View>
-          <View style={styles.birthdayInputWrapper}>
-            <View style={styles.birthdayInput}>
-              <Text>{JSON.stringify(values)}</Text>
-              <View style={styles.currentYear}>
-                <Text>20 Years Old</Text>
+      {(formProps: FormikProps<FormikValues>) => {
+        const {handleSubmit, isValid, dirty, handleChange, values} = formProps;
+        return (
+          <View style={styles.formContainer}>
+            <View>
+              <Image
+                style={styles.birthdayIcon}
+                source={require('../../../assets/images/rocket.png')}
+              />
+            </View>
+            <Text style={styles.formTitle}>ADD BIRTHDAY</Text>
+            <View style={styles.descriptionWrapper}>
+              <Text style={styles.description}>
+                This won't be part of your public profile. Why do I need to
+                provide my birthday?
+              </Text>
+            </View>
+            <View style={styles.birthdayInputWrapper}>
+              <View style={styles.birthdayInput}>
+                <Text>{JSON.stringify(values)}</Text>
+                <View style={styles.currentYear}>
+                  <Text>20 Years Old</Text>
+                </View>
               </View>
+
+              <Text style={styles.guide}>
+                Use your own birthday, even if this account is for a business, a
+                pet or something else.
+              </Text>
             </View>
 
-            <Text style={styles.guide}>
-              Use your own birthday, even if this account is for a business, a
-              pet or something else.
-            </Text>
+            <Button
+              label="Next"
+              disabled={!isValid || !dirty}
+              onPress={handleSubmit}
+              style={{width: SCREEN_WIDTH * 0.9}}
+            />
+
+            <DatePicker
+              defaultDate={1}
+              defaultMonth="Jan"
+              defaultYear={2020}
+              onDateChange={(date: number) => {
+                handleChange('date')(`${date}`);
+              }}
+              onMonthIndexChange={(index: number) => {
+                handleChange('month')(`${index}`);
+              }}
+              onYearChange={(year: number) => {
+                handleChange('year')(`${year}`);
+              }}
+            />
           </View>
-
-          <Button
-            label="Next"
-            disabled={!isValid || !dirty}
-            onPress={handleSubmit}
-            style={{width: SCREEN_WIDTH * 0.9}}
-          />
-
-          <DatePicker
-            defaultDate={1}
-            defaultMonth="Jan"
-            defaultYear={2020}
-            onDateChange={(date: number) => {
-              handleChange('date')(`${date}`);
-            }}
-            onMonthIndexChange={(index: number) => {
-              handleChange('month')(`${index}`);
-            }}
-            onYearChange={(year: number) => {
-              handleChange('year')(`${year}`);
-            }}
-          />
-        </View>
-      )}
+        );
+      }}
     </Formik>
   );
 };

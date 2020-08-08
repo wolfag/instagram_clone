@@ -1,4 +1,4 @@
-import {Formik, FormikProps} from 'formik';
+import {Formik, FormikProps, FormikValues, FormikHelpers} from 'formik';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import * as yup from 'yup';
@@ -11,10 +11,13 @@ export interface LoginFormValue {
   password: string;
 }
 
-const initialValues = {username: '', password: ''};
+const initialValues: LoginFormValue = {username: '', password: ''};
 
 export interface LoginFormProps {
-  onSubmit: any;
+  onSubmit: (
+    values: LoginFormValue,
+    formikHelpers: FormikHelpers<LoginFormValue>,
+  ) => void | Promise<any>;
 }
 
 const LoginForm = ({onSubmit}: LoginFormProps): JSX.Element => {
@@ -33,12 +36,8 @@ const LoginForm = ({onSubmit}: LoginFormProps): JSX.Element => {
       onSubmit={onSubmit}
       validationSchema={validationSchema}
       initialValues={initialValues}>
-      {({
-        handleSubmit,
-        isValid,
-        dirty,
-        ...rest
-      }: FormikProps<LoginFormValue>) => {
+      {(formProps: FormikProps<FormikValues>) => {
+        const {isValid, dirty, handleSubmit} = formProps;
         return (
           <View style={styles.container}>
             <Input
@@ -46,14 +45,14 @@ const LoginForm = ({onSubmit}: LoginFormProps): JSX.Element => {
               autoCapitalize="none"
               placeholder="Username, email or phone number"
               style={styles.input}
-              {...rest}
+              {...formProps}
             />
             <Input
               name="password"
               placeholder="Password"
               password={true}
               style={styles.input}
-              {...rest}
+              {...formProps}
             />
             <Button
               onPress={handleSubmit}

@@ -1,4 +1,4 @@
-import {Formik, FormikProps} from 'formik';
+import {Formik, FormikProps, FormikValues, FormikHelpers} from 'formik';
 import React, {useCallback, useMemo, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
@@ -12,10 +12,13 @@ export interface RegisterFormValueStep1 {
   email: string;
 }
 
-const initialValues = {phone: '', email: ''};
+const initialValues: RegisterFormValueStep1 = {phone: '', email: ''};
 
 export interface RegisterFormStep1Props {
-  onSubmit: any;
+  onSubmit: (
+    values: RegisterFormValueStep1,
+    formikHelpers: FormikHelpers<RegisterFormValueStep1>,
+  ) => void | Promise<any>;
 }
 
 const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
@@ -68,70 +71,70 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
       onSubmit={onSubmit}
       validationSchema={validationSchema}
       initialValues={initialValues}>
-      {({
-        handleSubmit,
-        isValid,
-        dirty,
-        ...rest
-      }: FormikProps<RegisterFormValueStep1>) => (
-        <>
-          <View>
-            <Feather name="user" size={100} />
-          </View>
-          <View style={styles.formBody}>
-            <View style={styles.navigationTabs}>
-              <TouchableOpacity
-                onPress={_onToggleTab(1)}
-                activeOpacity={0.8}
-                style={styles.navigationTab}>
-                <Text style={[styles.tabTitle, {color: _phoneColor}]}>
-                  PHONE
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={_onToggleTab(2)}
-                activeOpacity={0.8}
-                style={styles.navigationTab}>
-                <Text style={[styles.tabTitle, {color: _emailColor}]}>
-                  EMAIL
-                </Text>
-              </TouchableOpacity>
-
-              <View style={[styles.activeTypeLine, {left: _activeTypeLine}]} />
+      {(formProps: FormikProps<FormikValues>) => {
+        const {handleSubmit, isValid, dirty} = formProps;
+        return (
+          <>
+            <View>
+              <Feather name="user" size={100} />
             </View>
+            <View style={styles.formBody}>
+              <View style={styles.navigationTabs}>
+                <TouchableOpacity
+                  onPress={_onToggleTab(1)}
+                  activeOpacity={0.8}
+                  style={styles.navigationTab}>
+                  <Text style={[styles.tabTitle, {color: _phoneColor}]}>
+                    PHONE
+                  </Text>
+                </TouchableOpacity>
 
-            <View style={styles.formFields}>
-              {tab === 1 && (
-                <PhoneInput
-                  name="phone"
-                  autoFocus={true}
-                  placeholder="Phone"
-                  keyboardType="number-pad"
-                  returnKeyType="done"
-                  {...rest}
-                />
-              )}
-              {tab === 2 && (
-                <Input
-                  name="email"
-                  autoFocus={true}
-                  placeholder="Email"
-                  keyboardType="email-address"
-                  returnKeyType="done"
-                  {...rest}
-                />
-              )}
+                <TouchableOpacity
+                  onPress={_onToggleTab(2)}
+                  activeOpacity={0.8}
+                  style={styles.navigationTab}>
+                  <Text style={[styles.tabTitle, {color: _emailColor}]}>
+                    EMAIL
+                  </Text>
+                </TouchableOpacity>
 
-              <Button
-                disabled={!isValid || !dirty}
-                label="Next"
-                onPress={handleSubmit}
-              />
+                <View
+                  style={[styles.activeTypeLine, {left: _activeTypeLine}]}
+                />
+              </View>
+
+              <View style={styles.formFields}>
+                {tab === 1 && (
+                  <PhoneInput
+                    name="phone"
+                    autoFocus={true}
+                    placeholder="Phone"
+                    keyboardType="number-pad"
+                    returnKeyType="done"
+                    {...formProps}
+                  />
+                )}
+                {tab === 2 && (
+                  <Input
+                    name="email"
+                    autoFocus={true}
+                    placeholder="Email"
+                    keyboardType="email-address"
+                    returnKeyType="done"
+                    {...formProps}
+                  />
+                )}
+
+                <Button
+                  disabled={!isValid || !dirty}
+                  label="Next"
+                  onPress={handleSubmit}
+                />
+              </View>
             </View>
-          </View>
-        </>
-      )}
+          </>
+        );
+      }}
     </Formik>
   );
 };

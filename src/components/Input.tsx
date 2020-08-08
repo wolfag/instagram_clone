@@ -1,27 +1,23 @@
-import React, {useCallback, useState, useMemo} from 'react';
+import {FormikProps, FormikValues} from 'formik';
+import React, {useCallback, useMemo, useState} from 'react';
 import {
+  StyleProp,
   StyleSheet,
   Text,
   TextInput,
+  TextInputProps,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import {styles as commonStyles} from './styles';
 
 export interface InputProps {
   name: string;
-  values: object;
-  errors?: object;
-  touched?: object;
-  style?: object;
+  style?: StyleProp<ViewStyle>;
   showError?: boolean;
-  setFieldValue?: any;
-  handleChange?: any;
-  handleBlur?: any;
-  setFieldTouched?: any;
   allowClear?: boolean;
   password?: boolean;
 }
@@ -40,21 +36,21 @@ const Input = ({
   allowClear = true,
   password,
   ...rest
-}: InputProps) => {
+}: InputProps & TextInputProps & FormikProps<FormikValues>) => {
   const [hidePassword, setHidePassword] = useState(true);
 
   const _onClear = useCallback(() => {
-    setFieldValue(name, '');
+    setFieldValue && setFieldValue(name, '');
   }, [setFieldValue, name]);
 
   const _onBlur = useCallback(() => {
-    handleBlur(name);
-    setFieldTouched(name, true, true);
+    handleBlur && handleBlur(name);
+    setFieldTouched && setFieldTouched(name, true, true);
   }, [handleBlur, name, setFieldTouched]);
 
   const _onChange = useCallback(
     (text: string) => {
-      handleChange(name)(text);
+      handleChange && handleChange(name)(text);
     },
     [handleChange, name],
   );

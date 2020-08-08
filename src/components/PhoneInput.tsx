@@ -1,16 +1,21 @@
+import {FormikProps, FormikValues} from 'formik';
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextInputProps,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import Input from './Input';
-
 import {styles as commonStyles} from './styles';
 
 export interface PhoneInputProps {
   name: string;
-  values: object;
-  errors?: object;
-  touched: object;
   error?: string;
-  style?: object;
+  style?: StyleProp<ViewStyle>;
   showError?: boolean;
 }
 
@@ -22,8 +27,7 @@ const PhoneInput = ({
   style,
   showError = true,
   ...rest
-}: PhoneInputProps) => {
-  console.log({values, touched, errors});
+}: PhoneInputProps & TextInputProps & FormikProps<FormikValues>) => {
   return (
     <View style={[styles.container, style]}>
       <View style={styles.wrapper}>
@@ -38,7 +42,7 @@ const PhoneInput = ({
           {...rest}
         />
       </View>
-      {showError && touched[name] && errors[name] ? (
+      {showError && touched && touched[name] && errors && errors[name] ? (
         <Text style={commonStyles.errorText}>
           {touched[name] && errors[name]}
         </Text>

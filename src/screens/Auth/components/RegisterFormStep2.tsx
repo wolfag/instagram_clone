@@ -1,4 +1,4 @@
-import {Formik, FormikProps} from 'formik';
+import {Formik, FormikProps, FormikValues, FormikHelpers} from 'formik';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import * as yup from 'yup';
@@ -12,10 +12,17 @@ export interface RegisterFormValueStep2 {
   savePassword: boolean;
 }
 
-const initialValues = {fullname: '', password: '', savePassword: false};
+const initialValues: RegisterFormValueStep2 = {
+  fullname: '',
+  password: '',
+  savePassword: false,
+};
 
 export interface RegisterFormStep2Props {
-  onSubmit: any;
+  onSubmit: (
+    values: RegisterFormValueStep2,
+    formikHelpers: FormikHelpers<RegisterFormValueStep2>,
+  ) => void | Promise<any>;
 }
 
 const RegisterFormStep2 = ({onSubmit}: RegisterFormStep2Props): JSX.Element => {
@@ -36,51 +43,53 @@ const RegisterFormStep2 = ({onSubmit}: RegisterFormStep2Props): JSX.Element => {
       onSubmit={onSubmit}
       validationSchema={validationSchema}
       initialValues={initialValues}>
-      {({
-        handleSubmit,
-        isValid,
-        dirty,
-        ...rest
-      }: FormikProps<RegisterFormValueStep2>) => (
-        <View style={styles.formContainer}>
-          <View style={styles.formTitle}>
-            <Text style={styles.titleText}>NAME AND PASSWORD</Text>
-          </View>
-          <View style={styles.formFields}>
-            <Input
-              name="fullname"
-              autoCorrect={false}
-              autoCapitalize="none"
-              autoFocus={true}
-              placeholder="Full name"
-              keyboardType="default"
-              returnKeyType="done"
-              {...rest}
-            />
-            <Input
-              name="password"
-              password={true}
-              placeholder="Password"
-              keyboardType="default"
-              returnKeyType="done"
-              {...rest}
-            />
-            <Checkbox name="savePassword" label="Save password" {...rest} />
+      {(formProps: FormikProps<FormikValues>) => {
+        const {handleSubmit, isValid, dirty} = formProps;
+        return (
+          <View style={styles.formContainer}>
+            <View style={styles.formTitle}>
+              <Text style={styles.titleText}>NAME AND PASSWORD</Text>
+            </View>
+            <View style={styles.formFields}>
+              <Input
+                name="fullname"
+                autoCorrect={false}
+                autoCapitalize="none"
+                autoFocus={true}
+                placeholder="Full name"
+                keyboardType="default"
+                returnKeyType="done"
+                {...formProps}
+              />
+              <Input
+                name="password"
+                password={true}
+                placeholder="Password"
+                keyboardType="default"
+                returnKeyType="done"
+                {...formProps}
+              />
+              <Checkbox
+                name="savePassword"
+                label="Save password"
+                {...formProps}
+              />
 
-            <Button
-              onPress={handleSubmit}
-              disabled={!isValid || !dirty}
-              label="Continue Without Syncing Contacts"
-            />
+              <Button
+                onPress={handleSubmit}
+                disabled={!isValid || !dirty}
+                label="Continue Without Syncing Contacts"
+              />
 
-            <Button link>
-              <Text style={styles.continueWithoutSyn}>
-                Continue Without Syncing Contacts
-              </Text>
-            </Button>
+              <Button link>
+                <Text style={styles.continueWithoutSyn}>
+                  Continue Without Syncing Contacts
+                </Text>
+              </Button>
+            </View>
           </View>
-        </View>
-      )}
+        );
+      }}
     </Formik>
   );
 };
