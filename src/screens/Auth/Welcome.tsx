@@ -1,6 +1,6 @@
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import MyButton from '../../components/MyButton';
 import Loading from '../../components/Loading';
@@ -62,6 +62,10 @@ const WelcomeScreen = ({
   navigation,
   route,
 }: WelcomeScreenProps): JSX.Element => {
+  useEffect(() => {
+    navigation.setOptions({headerShown: false});
+  }, [navigation]);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [isChangeUsername, setIsChangeUsername] = useState<boolean>(false);
   const [username, setUsername] = useState(

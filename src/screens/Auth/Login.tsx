@@ -1,32 +1,37 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import logoImg from '../../assets/images/logo.png';
 import MyButton from '../../components/MyButton';
 import Loading from '../../components/Loading';
 import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
-import {navigation} from '../../navigation/rootNavigation';
 import LoginForm from './components/LoginForm';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {CommonParamList} from '../../navigation/RootTab';
+import LoginWithFacebook from './components/LoginWithFacebook';
 
-const LoginScreen = (): JSX.Element => {
+type LoginScreenProps = {
+  navigation: StackNavigationProp<CommonParamList, 'LoginScreen'>;
+};
+
+const LoginScreen = ({navigation}: LoginScreenProps): JSX.Element => {
+  useEffect(() => {
+    navigation.setOptions({headerShown: false});
+  }, [navigation]);
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const _onLogin = useCallback(async (values) => {
     console.log({values});
   }, []);
+
   const _onRegister = useCallback(() => {
-    // navigation.navigate('WelcomeScreen', {
-    //   formData: {
-    //     phone: '12345678',
-    //     email: 'tai@gmail.com',
-    //     fullname: 'Tai Nguyen',
-    //     password: '123456',
-    //     savePassword: true,
-    //     birthday: new Date(),
-    //   },
-    // });
     navigation.navigate('RegisterScreen');
-  }, []);
+  }, [navigation]);
+
+  const _onForgotPassword = useCallback(() => {
+    navigation.navigate('ForgotPasswordScreen');
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,17 +52,13 @@ const LoginScreen = (): JSX.Element => {
             <Text style={styles.forgetText}>
               Did your forget login information?
             </Text>
-            <MyButton link label="Get helping to login" />
+            <MyButton
+              link
+              label="Get helping to login"
+              onPress={_onForgotPassword}
+            />
           </View>
-          <View style={styles.divideLine}>
-            <View style={styles.orTextWrapper}>
-              <Text style={styles.orText}>OR</Text>
-            </View>
-          </View>
-          <MyButton link style={styles.btnLoginWithFacebook}>
-            <MaterialCommunityIcons name="facebook" size={20} color="#318bfb" />
-            <Text style={styles.loginFacebookText}>Login with Facebook</Text>
-          </MyButton>
+          <LoginWithFacebook />
         </View>
       </View>
 
@@ -117,30 +118,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  divideLine: {
-    marginVertical: 10,
-    position: 'relative',
-    height: 2,
-    width: '100%',
-    backgroundColor: '#ddd',
-  },
-  orTextWrapper: {
-    width: 40,
-    height: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    top: (2 - 20) / 2,
-    left: (SCREEN_WIDTH * 0.9 - 40) / 2,
-    position: 'absolute',
-    paddingHorizontal: 10,
-    backgroundColor: '#fff',
-  },
-  orText: {color: '#333', fontWeight: '600'},
-  btnLoginWithFacebook: {
-    marginTop: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   registerWrapper: {
     height: 50,
     justifyContent: 'center',
@@ -149,7 +126,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   forgetText: {fontWeight: '500', color: '#333'},
-  loginFacebookText: {color: '#318bfb', fontWeight: 'bold'},
   dontHaveAccTextWrapper: {
     textAlign: 'center',
     fontSize: 12,

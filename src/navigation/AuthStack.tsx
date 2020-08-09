@@ -20,7 +20,6 @@ const Stack = createStackNavigator<AuthStackParamList>();
 
 const AuthStack = () => {
   const navigationOptions: StackNavigationOptions = {
-    headerShown: false,
     gestureEnabled: false,
   };
   return (

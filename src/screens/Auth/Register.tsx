@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState, useEffect} from 'react';
 import {
   KeyboardAvoidingView,
   SafeAreaView,
@@ -7,7 +7,6 @@ import {
   View,
 } from 'react-native';
 import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
-import {navigation} from '../../navigation/rootNavigation';
 import RegisterFormStep1, {
   RegisterFormValueStep1,
 } from './components/RegisterFormStep1';
@@ -19,8 +18,18 @@ import RegisterFormStep3, {
 } from './components/RegisterFormStep3';
 import {WelcomeScreenParams} from './Welcome';
 import MyButton from '../../components/MyButton';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {CommonParamList} from '../../navigation/RootTab';
 
-const RegisterScreen = (): JSX.Element => {
+type RegisterScreenProps = {
+  navigation: StackNavigationProp<CommonParamList, 'RegisterScreen'>;
+};
+
+const RegisterScreen = ({navigation}: RegisterScreenProps): JSX.Element => {
+  useEffect(() => {
+    navigation.setOptions({headerShown: false});
+  }, [navigation]);
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const [formDataStep1, setFormDataStep1] = useState<RegisterFormValueStep1>({
@@ -62,12 +71,12 @@ const RegisterScreen = (): JSX.Element => {
       };
       navigation.navigate('WelcomeScreen', formData);
     },
-    [formDataStep1, formDataStep2, formDataStep3],
+    [navigation, formDataStep1, formDataStep2, formDataStep3],
   );
 
   const _onLogin = useCallback(() => {
     navigation.navigate('LoginScreen');
-  }, []);
+  }, [navigation]);
 
   const _height = useMemo(() => {
     if (step > 1) {
