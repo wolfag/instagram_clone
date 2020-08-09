@@ -14,7 +14,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles as commonStyles} from './styles';
 
-export interface InputProps {
+export interface InputFieldProps {
   name: string;
   style?: StyleProp<ViewStyle>;
   showError?: boolean;
@@ -22,7 +22,7 @@ export interface InputProps {
   password?: boolean;
 }
 
-const Input = ({
+const InputField = ({
   name,
   values,
   errors,
@@ -36,7 +36,7 @@ const Input = ({
   allowClear = true,
   password,
   ...rest
-}: InputProps & TextInputProps & FormikProps<FormikValues>) => {
+}: InputFieldProps & TextInputProps & FormikProps<FormikValues>) => {
   const [hidePassword, setHidePassword] = useState(true);
 
   const _onClear = useCallback(() => {
@@ -101,7 +101,7 @@ const Input = ({
   );
 };
 
-export default Input;
+export default InputField;
 
 const styles = StyleSheet.create({
   container: {

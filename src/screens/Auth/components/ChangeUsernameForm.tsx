@@ -3,7 +3,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import * as yup from 'yup';
 import MyButton from '../../../components/MyButton';
-import Input from '../../../components/Input';
+import InputField from '../../../components/InputField';
 import {styles as parentStyle} from '../Welcome';
 
 export interface ChangeUsernameFormValue {
@@ -46,7 +46,7 @@ const ChangeUsernameForm = ({
             <Text style={parentStyle.description}>
               Pick username for your account. You can always change it later.
             </Text>
-            <Input
+            <InputField
               name="username"
               autoCapitalize="none"
               placeholder="Username"

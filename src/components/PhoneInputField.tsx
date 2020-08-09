@@ -9,35 +9,33 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import Input from './Input';
+import InputField from './InputField';
 import {styles as commonStyles} from './styles';
 
-export interface PhoneInputProps {
+export interface PhoneInputFieldProps {
   name: string;
   error?: string;
   style?: StyleProp<ViewStyle>;
   showError?: boolean;
 }
 
-const PhoneInput = ({
+const PhoneInputField = ({
   name,
-  values,
-  errors,
-  touched,
+
   style,
   showError = true,
   ...rest
-}: PhoneInputProps & TextInputProps & FormikProps<FormikValues>) => {
+}: PhoneInputFieldProps & TextInputProps & FormikProps<FormikValues>) => {
+  const {errors, touched} = rest;
   return (
     <View style={[styles.container, style]}>
       <View style={styles.wrapper}>
         <TouchableOpacity style={styles.btnPhoneCode}>
           <Text style={styles.phoneCode}>VN +84</Text>
         </TouchableOpacity>
-        <Input
+        <InputField
           style={styles.input}
           name={name}
-          values={values}
           showError={false}
           {...rest}
         />
@@ -51,7 +49,7 @@ const PhoneInput = ({
   );
 };
 
-export default PhoneInput;
+export default PhoneInputField;
 
 const styles = StyleSheet.create({
   container: {

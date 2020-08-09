@@ -4,8 +4,8 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import * as yup from 'yup';
 import MyButton from '../../../components/MyButton';
-import Input from '../../../components/Input';
-import PhoneInput from '../../../components/PhoneInput';
+import InputField from '../../../components/InputField';
+import PhoneInputField from '../../../components/PhoneInputField';
 
 export interface RegisterFormValueStep1 {
   phone: string;
@@ -105,7 +105,7 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
 
               <View style={styles.formFields}>
                 {tab === 1 && (
-                  <PhoneInput
+                  <PhoneInputField
                     name="phone"
                     autoFocus={true}
                     placeholder="Phone"
@@ -116,7 +116,7 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
                   />
                 )}
                 {tab === 2 && (
-                  <Input
+                  <InputField
                     name="email"
                     autoFocus={true}
                     placeholder="Email"

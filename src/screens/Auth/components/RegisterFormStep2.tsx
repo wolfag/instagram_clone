@@ -4,7 +4,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import * as yup from 'yup';
 import MyButton from '../../../components/MyButton';
 import CheckBoxField from '../../../components/CheckBoxField';
-import Input from '../../../components/Input';
+import InputField from '../../../components/InputField';
 
 export interface RegisterFormValueStep2 {
   fullname: string;
@@ -51,7 +51,7 @@ const RegisterFormStep2 = ({onSubmit}: RegisterFormStep2Props): JSX.Element => {
               <Text style={styles.titleText}>NAME AND PASSWORD</Text>
             </View>
             <View style={styles.formFields}>
-              <Input
+              <InputField
                 name="fullname"
                 autoCorrect={false}
                 autoCapitalize="none"
@@ -61,7 +61,7 @@ const RegisterFormStep2 = ({onSubmit}: RegisterFormStep2Props): JSX.Element => {
                 returnKeyType="done"
                 {...formProps}
               />
-              <Input
+              <InputField
                 name="password"
                 password={true}
                 placeholder="Password"

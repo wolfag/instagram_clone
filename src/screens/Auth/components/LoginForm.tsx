@@ -2,7 +2,7 @@ import {Formik, FormikProps, FormikValues, FormikHelpers} from 'formik';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import * as yup from 'yup';
-import Input from '../../../components/Input';
+import InputField from '../../../components/InputField';
 import {SCREEN_WIDTH} from '../../../constants';
 import MyButton from '../../../components/MyButton';
 
@@ -40,13 +40,13 @@ const LoginForm = ({onSubmit}: LoginFormProps): JSX.Element => {
         const {isValid, dirty, handleSubmit} = formProps;
         return (
           <View style={styles.container}>
-            <Input
+            <InputField
               name="username"
               autoCapitalize="none"
               placeholder="Username, email or phone number"
               {...formProps}
             />
-            <Input
+            <InputField
               name="password"
               placeholder="Password"
               password={true}
