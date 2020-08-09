@@ -1,18 +1,18 @@
 import React, {useMemo} from 'react';
 import {StyleSheet, StyleProp, ViewStyle, View, ViewProps} from 'react-native';
 
-type FooterProps = {
+type HeaderProps = {
   children?: JSX.Element | JSX.Element[];
   style?: StyleProp<ViewStyle>;
   showSeparator?: boolean;
 };
 
-const Footer = ({
+const Header = ({
   children,
   style,
   showSeparator,
   ...rest
-}: FooterProps & ViewProps): JSX.Element => {
+}: HeaderProps & ViewProps): JSX.Element => {
   const separatorStyle = useMemo(() => {
     return showSeparator ? styles.separator : {};
   }, [showSeparator]);
@@ -24,17 +24,16 @@ const Footer = ({
   );
 };
 
-export default Footer;
+export default Header;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    height: 'auto',
+    height: 50,
     paddingHorizontal: 20,
-    paddingVertical: 15,
   },
   separator: {
-    borderTopColor: '#ddd',
-    borderTopWidth: 0.5,
+    borderBottomColor: '#ddd',
+    borderBottomWidth: 0.5,
   },
 });
