@@ -1,10 +1,11 @@
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useCallback, useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import MyButton from '../../components/MyButton';
+import React, {useCallback, useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import Loading from '../../components/Loading';
-import {SCREEN_HEIGHT, STATUS_BAR_HEIGHT, SCREEN_WIDTH} from '../../constants';
+import MyButton from '../../components/MyButton';
+import {SCREEN_HEIGHT, STATUS_BAR_HEIGHT} from '../../constants';
+import {Body, Container, Footer} from '../../layout';
 import {CommonParamList} from '../../navigation/RootTab';
 import ChangeUsernameForm from './components/ChangeUsernameForm';
 import {RegisterFormValueStep1} from './components/RegisterFormStep1';
@@ -81,9 +82,9 @@ const WelcomeScreen = ({
   const _onSubmitChangeUsername = useCallback(() => {}, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Container>
       <Loading loading={loading} label="Registering..." />
-      <View style={styles.body}>
+      <Body>
         {isChangeUsername ? (
           <ChangeUsernameForm
             onSubmit={_onSubmitChangeUsername}
@@ -96,9 +97,8 @@ const WelcomeScreen = ({
             username={username}
           />
         )}
-      </View>
-      <View style={{flex: 1}} />
-      <View style={styles.footer}>
+      </Body>
+      <Footer>
         <Text>
           <Text style={styles.footerText}>
             By clicking Next, you agree to our{' '}
@@ -107,35 +107,20 @@ const WelcomeScreen = ({
             </Text>
           </Text>
         </Text>
-      </View>
-    </SafeAreaView>
+      </Footer>
+    </Container>
   );
 };
 
 export default WelcomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  body: {
-    width: SCREEN_WIDTH * 0.9,
-  },
   content: {
     width: '100%',
     height: SCREEN_HEIGHT - STATUS_BAR_HEIGHT - 100,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
-  },
-  footer: {
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 25,
   },
   title: {fontWeight: '600', textAlign: 'center'},
   username: {fontWeight: '600', textAlign: 'center'},

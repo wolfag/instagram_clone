@@ -3,6 +3,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {FormikValues} from 'formik';
 import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
+import Loading from '../../components/Loading';
 import MyButton from '../../components/MyButton';
 import Body from '../../layout/Body';
 import Container from '../../layout/Container';
@@ -10,7 +11,6 @@ import Footer from '../../layout/Footer';
 import {CommonParamList} from '../../navigation/RootTab';
 import ForgotPasswordForm from './components/ForgotPasswordForm';
 import LoginWithFacebook from './components/LoginWithFacebook';
-import Loading from '../../components/Loading';
 
 type ForgotPasswordScreenRouteProp = RouteProp<
   CommonParamList,
@@ -33,8 +33,8 @@ const ForgotPasswordScreen = ({
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title: 'Login Help',
-      headerBackTitle: '',
+      headerBackTitle: 'Login Help',
+      title: '',
     });
   }, [navigation]);
 
@@ -48,7 +48,7 @@ const ForgotPasswordScreen = ({
   return (
     <Container>
       <Loading loading={loading} label="Checking..." />
-      <Body contentContainerStyle={styles.body}>
+      <Body center>
         <ForgotPasswordForm onSubmit={_onSubmit} />
         <LoginWithFacebook style={styles.loginWithFacebook} />
       </Body>

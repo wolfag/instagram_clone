@@ -75,10 +75,8 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
       {(formProps: FormikProps<FormikValues>) => {
         const {handleSubmit, isValid, dirty} = formProps;
         return (
-          <>
-            <View>
-              <Feather name="user" size={100} />
-            </View>
+          <View style={styles.formContainer}>
+            <Feather name="user" size={100} />
             <View style={styles.formBody}>
               <View style={styles.navigationTabs}>
                 <TouchableOpacity
@@ -134,7 +132,7 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
                 />
               </View>
             </View>
-          </>
+          </View>
         );
       }}
     </Formik>
@@ -144,6 +142,11 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
 export default RegisterFormStep1;
 
 const styles = StyleSheet.create({
+  formContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   formBody: {
     width: '100%',
     marginVertical: 10,

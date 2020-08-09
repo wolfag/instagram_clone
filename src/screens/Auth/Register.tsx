@@ -1,12 +1,11 @@
-import React, {useCallback, useMemo, useState, useEffect} from 'react';
-import {
-  KeyboardAvoidingView,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {KeyboardAvoidingView, StyleSheet, Text} from 'react-native';
+import Loading from '../../components/Loading';
+import MyButton from '../../components/MyButton';
 import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
+import {Body, Container, Footer} from '../../layout';
+import {CommonParamList} from '../../navigation/RootTab';
 import RegisterFormStep1, {
   RegisterFormValueStep1,
 } from './components/RegisterFormStep1';
@@ -17,9 +16,6 @@ import RegisterFormStep3, {
   RegisterFormValueStep3,
 } from './components/RegisterFormStep3';
 import {WelcomeScreenParams} from './Welcome';
-import MyButton from '../../components/MyButton';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {CommonParamList} from '../../navigation/RootTab';
 
 type RegisterScreenProps = {
   navigation: StackNavigationProp<CommonParamList, 'RegisterScreen'>;
@@ -92,49 +88,41 @@ const RegisterScreen = ({navigation}: RegisterScreenProps): JSX.Element => {
   }, [step]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior="height"
-        style={[
-          styles.content,
-          {
-            height: _height,
-            width: _width,
-          },
-        ]}>
-        {step === 1 && <RegisterFormStep1 onSubmit={_onSubmitStep1} />}
-        {step === 2 && <RegisterFormStep2 onSubmit={_onSubmitStep2} />}
-        {step === 3 && <RegisterFormStep3 onSubmit={_onSubmitStep3} />}
-      </KeyboardAvoidingView>
-      <View style={{flex: 1}} />
-      <MyButton link onPress={_onLogin} style={styles.btnLogin}>
-        <Text style={styles.alreadyHaveAccText}>
-          Already have account? <Text style={styles.loginText}>Login</Text>.
-        </Text>
-      </MyButton>
-    </SafeAreaView>
+    <Container>
+      <Loading loading={loading} />
+      <Body>
+        <KeyboardAvoidingView
+          behavior="height"
+          style={[
+            styles.content,
+            {
+              height: _height,
+              width: _width,
+            },
+          ]}>
+          {step === 1 && <RegisterFormStep1 onSubmit={_onSubmitStep1} />}
+          {step === 2 && <RegisterFormStep2 onSubmit={_onSubmitStep2} />}
+          {step === 3 && <RegisterFormStep3 onSubmit={_onSubmitStep3} />}
+        </KeyboardAvoidingView>
+      </Body>
+      <Footer showSeparator>
+        <MyButton link onPress={_onLogin}>
+          <Text style={styles.alreadyHaveAccText}>
+            Already have account? <Text style={styles.loginText}>Login</Text>.
+          </Text>
+        </MyButton>
+      </Footer>
+    </Container>
   );
 };
 
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    flex: 1,
-  },
   content: {
-    width: SCREEN_WIDTH * 0.9,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  btnLogin: {
-    height: 50,
-    borderTopColor: '#ddd',
-    borderTopWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   alreadyHaveAccText: {
     textAlign: 'center',
