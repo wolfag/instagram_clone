@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Modal} from 'react-native';
 import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants';
 import LoadingAmin from './LoadingAnim';
 
@@ -11,17 +11,15 @@ export interface LoadingProps {
 }
 
 const Loading = ({loading, label, loadingColor, labelColor}: LoadingProps) => {
-  if (!loading) {
-    return null;
-  }
-
   return (
-    <View style={styles.container}>
-      <View style={styles.loading}>
-        <LoadingAmin loading={true} size={30} color={loadingColor} />
-        <Text style={[styles.label, {color: labelColor}]}>{label}</Text>
+    <Modal visible={loading} transparent={true} animationType="fade">
+      <View style={styles.container}>
+        <View style={styles.loading}>
+          <LoadingAmin loading={true} size={30} color={loadingColor} />
+          <Text style={[styles.label, {color: labelColor}]}>{label}</Text>
+        </View>
       </View>
-    </View>
+    </Modal>
   );
 };
 
