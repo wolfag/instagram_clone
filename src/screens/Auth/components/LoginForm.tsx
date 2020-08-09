@@ -14,13 +14,14 @@ export interface LoginFormValue {
 const initialValues: LoginFormValue = {username: '', password: ''};
 
 export interface LoginFormProps {
+  loading?: boolean;
   onSubmit: (
     values: LoginFormValue,
     formikHelpers: FormikHelpers<LoginFormValue>,
   ) => void | Promise<any>;
 }
 
-const LoginForm = ({onSubmit}: LoginFormProps): JSX.Element => {
+const LoginForm = ({onSubmit, loading}: LoginFormProps): JSX.Element => {
   const validationSchema = yup.object().shape(
     {
       username: yup.string().label('Username').required(),
@@ -56,6 +57,7 @@ const LoginForm = ({onSubmit}: LoginFormProps): JSX.Element => {
               onPress={handleSubmit}
               disabled={!isValid || !dirty}
               label="Login"
+              loading={loading}
             />
           </View>
         );

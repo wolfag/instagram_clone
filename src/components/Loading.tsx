@@ -1,7 +1,7 @@
 import React from 'react';
-import {Animated, Easing, StyleSheet, Text, View} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
+import {StyleSheet, Text, View} from 'react-native';
 import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants';
+import LoadingAmin from './LoadingAnim';
 
 export interface LoadingProps {
   loading: boolean;
@@ -11,19 +11,6 @@ export interface LoadingProps {
 }
 
 const Loading = ({loading, label, loadingColor, labelColor}: LoadingProps) => {
-  const _loadingAnimValue = new Animated.Value(0);
-  const _animationLoading = () => {
-    Animated.timing(_loadingAnimValue, {
-      useNativeDriver: true,
-      toValue: 1,
-      duration: 400,
-      easing: Easing.linear,
-    }).start(() => {
-      _loadingAnimValue.setValue(0);
-      loading && _animationLoading();
-    });
-  };
-
   if (!loading) {
     return null;
   }
@@ -31,23 +18,7 @@ const Loading = ({loading, label, loadingColor, labelColor}: LoadingProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.loading}>
-        <Animated.View
-          onLayout={_animationLoading}
-          style={[
-            styles.animateLoading,
-            {
-              transform: [
-                {
-                  rotate: _loadingAnimValue.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['0deg', '360deg'],
-                  }),
-                },
-              ],
-            },
-          ]}>
-          <Feather name="loader" size={30} color={loadingColor} />
-        </Animated.View>
+        <LoadingAmin loading={true} size={30} color={loadingColor} />
         <Text style={[styles.label, {color: labelColor}]}>{label}</Text>
       </View>
     </View>
@@ -72,13 +43,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#fff',
     alignItems: 'center',
-  },
-  animateLoading: {
-    width: 30,
-    height: 30,
-    display: 'flex',
-    justifyContent: 'center',
-    alignContent: 'center',
   },
   label: {
     fontWeight: '500',

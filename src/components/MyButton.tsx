@@ -8,6 +8,7 @@ import {
   StyleProp,
   TextStyle,
 } from 'react-native';
+import LoadingAmin from './LoadingAnim';
 
 export interface MyButtonProps {
   style?: StyleProp<ViewStyle>;
@@ -15,6 +16,7 @@ export interface MyButtonProps {
   labelStyle?: StyleProp<TextStyle>;
   link?: boolean;
   children?: JSX.Element | JSX.Element[];
+  loading?: boolean;
 }
 
 const MyButton = ({
@@ -23,16 +25,25 @@ const MyButton = ({
   label,
   link,
   children,
+  disabled,
+  loading = false,
   ...rest
 }: MyButtonProps & TouchableOpacityProps) => {
-  const btnStyle = link ? styles.link : styles.btn;
-  const lbStyle = link ? styles.labelLink : styles.label;
+  const btnStyle: StyleProp<ViewStyle> = link ? styles.link : styles.btn;
+  const lbStyle: StyleProp<TextStyle> = link ? styles.labelLink : styles.label;
+  const opacity: number = disabled ? 0.6 : 1;
   return (
-    <TouchableOpacity style={[btnStyle, styles.container, style]} {...rest}>
-      {typeof label === 'string' ? (
+    <TouchableOpacity
+      disabled={disabled}
+      style={[btnStyle, styles.container, {opacity}, style]}
+      {...rest}>
+      {loading ? (
+        <LoadingAmin loading={loading} size={20} />
+      ) : typeof label === 'string' ? (
         <Text style={[lbStyle, labelStyle]}>{label}</Text>
-      ) : undefined}
-      {children}
+      ) : (
+        children
+      )}
     </TouchableOpacity>
   );
 };
