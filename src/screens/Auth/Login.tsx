@@ -15,6 +15,16 @@ const LoginScreen = (): JSX.Element => {
     console.log({values});
   }, []);
   const _onRegister = useCallback(() => {
+    // navigation.navigate('WelcomeScreen', {
+    //   formData: {
+    //     phone: '12345678',
+    //     email: 'tai@gmail.com',
+    //     fullname: 'Tai Nguyen',
+    //     password: '123456',
+    //     savePassword: true,
+    //     birthday: new Date(),
+    //   },
+    // });
     navigation.navigate('RegisterScreen');
   }, []);
 
@@ -137,13 +147,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopColor: '#ddd',
     borderTopWidth: 1,
-  },
-  loading: {
-    flexDirection: 'row',
-    padding: 15,
-    borderRadius: 5,
-    backgroundColor: '#fff',
-    alignItems: 'center',
   },
   forgetText: {fontWeight: '500', color: '#333'},
   loginFacebookText: {color: '#318bfb', fontWeight: 'bold'},

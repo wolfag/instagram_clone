@@ -72,15 +72,5 @@ const styles = StyleSheet.create({
   container: {
     width: SCREEN_WIDTH * 0.9,
   },
-  loginText: {fontSize: 16, color: '#fff', fontWeight: '500'},
-  btnLogin: {
-    marginTop: 7.5,
-    width: '100%',
-    height: 44,
-    borderRadius: 5,
-    backgroundColor: '#318bfb',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   input: {marginVertical: 7.5},
 });
