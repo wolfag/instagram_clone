@@ -1,5 +1,5 @@
 import {FormikProps, FormikValues} from 'formik';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -17,18 +17,32 @@ export interface PhoneInputFieldProps {
   error?: string;
   style?: StyleProp<ViewStyle>;
   showError?: boolean;
+  showBorderError?: boolean;
 }
 
 const PhoneInputField = ({
   name,
   style,
   showError = true,
+  showBorderError = true,
   ...rest
 }: PhoneInputFieldProps & TextInputProps & FormikProps<FormikValues>) => {
   const {errors, touched} = rest;
+
+  const _hasError = useMemo(() => {
+    return showError && touched && touched[name] && errors && errors[name];
+  }, [name, touched, errors, showError]);
+
+  const _borderColor = useMemo(() => {
+    if (showBorderError && _hasError) {
+      return 'red';
+    }
+    return '#ddd';
+  }, [showBorderError, _hasError]);
+
   return (
     <View style={[styles.container, style]}>
-      <View style={styles.wrapper}>
+      <View style={[styles.wrapper, {borderColor: _borderColor}]}>
         <TouchableOpacity style={styles.btnPhoneCode}>
           <Text style={styles.phoneCode}>VN +84</Text>
         </TouchableOpacity>
@@ -36,10 +50,11 @@ const PhoneInputField = ({
           style={styles.input}
           name={name}
           showError={false}
+          showBorderError={false}
           {...rest}
         />
       </View>
-      {showError && touched && touched[name] && errors && errors[name] ? (
+      {_hasError ? (
         <Text style={commonStyles.errorText}>
           {touched[name] && errors[name]}
         </Text>

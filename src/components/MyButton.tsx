@@ -51,12 +51,9 @@ const MyButton = ({
 export default MyButton;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {justifyContent: 'center', alignItems: 'center', width: '100%'},
   btn: {
-    width: '100%',
     height: 46,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginVertical: 20,
     borderRadius: 5,
     backgroundColor: '#318bfb',

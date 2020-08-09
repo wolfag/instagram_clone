@@ -18,6 +18,7 @@ export interface InputFieldProps {
   name: string;
   style?: StyleProp<ViewStyle>;
   showError?: boolean;
+  showBorderError?: boolean;
   allowClear?: boolean;
   password?: boolean;
 }
@@ -29,6 +30,7 @@ const InputField = ({
   touched,
   style,
   showError = true,
+  showBorderError = true,
   setFieldValue,
   handleChange,
   handleBlur,
@@ -63,9 +65,20 @@ const InputField = ({
     return hidePassword ? 'eye-off-outline' : 'eye-outline';
   }, [hidePassword]);
 
+  const _hasError = useMemo(() => {
+    return showError && touched && touched[name] && errors && errors[name];
+  }, [name, touched, errors, showError]);
+
+  const _borderColor = useMemo(() => {
+    if (showBorderError && _hasError) {
+      return 'red';
+    }
+    return '#ddd';
+  }, [showBorderError, _hasError]);
+
   return (
     <View style={[styles.container, style]}>
-      <View style={styles.wrapper}>
+      <View style={[styles.wrapper, {borderColor: _borderColor}]}>
         <TextInput
           style={styles.input}
           value={values[name]}
@@ -92,7 +105,7 @@ const InputField = ({
           </TouchableOpacity>
         )}
       </View>
-      {showError && touched && touched[name] && errors && errors[name] ? (
+      {_hasError ? (
         <Text style={commonStyles.errorText}>
           {touched[name] && errors[name]}
         </Text>
@@ -111,7 +124,6 @@ const styles = StyleSheet.create({
   wrapper: {
     borderRadius: 5,
     overflow: 'hidden',
-    borderColor: '#ddd',
     borderWidth: 1,
     width: '100%',
     position: 'relative',
