@@ -2,10 +2,10 @@ import {Formik, FormikHelpers, FormikProps, FormikValues} from 'formik';
 import moment from 'moment';
 import React, {useMemo} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import DatePicker from 'react-native-datepicker';
 import * as yup from 'yup';
 import MyButton from '../../../components/MyButton';
 import {DATE_FORMAT, SCREEN_WIDTH, MIN_AGE, MAX_AGE} from '../../../constants';
+import DatePickerField from '../../../components/DatePickerField';
 
 export interface RegisterFormValueStep3 {
   birthday: Date;
@@ -43,16 +43,7 @@ const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
       validationSchema={validationSchema}
       initialValues={initialValues}>
       {(formProps: FormikProps<FormikValues>) => {
-        const {
-          handleSubmit,
-          isValid,
-          dirty,
-          handleChange,
-          values,
-          errors,
-          touched,
-          setFieldTouched,
-        } = formProps;
+        const {handleSubmit, isValid, values} = formProps;
         const age = moment().diff(moment(values.birthday, DATE_FORMAT), 'year');
         return (
           <View style={styles.formContainer}>
@@ -71,8 +62,8 @@ const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
             </View>
             <View style={styles.birthdayInputWrapper}>
               <View style={styles.birthdayInput}>
-                <DatePicker
-                  date={values.birthday}
+                <DatePickerField
+                  name="birthday"
                   mode="date"
                   placeholder="select date"
                   format={DATE_FORMAT}
@@ -81,16 +72,14 @@ const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
                   confirmBtnText="Confirm"
                   cancelBtnText="Cancel"
                   showIcon={false}
+                  style={{marginBottom: 0}}
                   customStyles={{
                     dateInput: {
                       borderColor: 'transparent',
                       borderWidth: 0,
                     },
                   }}
-                  onDateChange={(date: string) => {
-                    handleChange('birthday')(date);
-                    setFieldTouched('birthday', true, true);
-                  }}
+                  {...formProps}
                 />
                 <View style={styles.currentYear}>
                   <Text>{`${age} Years Old`}</Text>

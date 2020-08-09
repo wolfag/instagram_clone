@@ -21,7 +21,6 @@ export interface PhoneInputFieldProps {
 
 const PhoneInputField = ({
   name,
-
   style,
   showError = true,
   ...rest
