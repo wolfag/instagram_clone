@@ -4,14 +4,14 @@ import React, {useCallback, useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Button from '../../components/Button';
 import Loading from '../../components/Loading';
-import {SCREEN_HEIGHT, STATUS_BAR_HEIGHT} from '../../constants';
+import {SCREEN_HEIGHT, STATUS_BAR_HEIGHT, SCREEN_WIDTH} from '../../constants';
 import {CommonParamList} from '../../navigation/RootTab';
 import ChangeUsernameForm from './components/ChangeUsernameForm';
 import {RegisterFormValueStep1} from './components/RegisterFormStep1';
 import {RegisterFormValueStep2} from './components/RegisterFormStep2';
 import {RegisterFormValueStep3} from './components/RegisterFormStep3';
 
-export type RegisterFormValue = RegisterFormValueStep1 &
+export type WelcomeScreenParams = RegisterFormValueStep1 &
   RegisterFormValueStep2 &
   RegisterFormValueStep3;
 
@@ -64,9 +64,7 @@ const WelcomeScreen = ({
 }: WelcomeScreenProps): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isChangeUsername, setIsChangeUsername] = useState<boolean>(false);
-  const [username, setUsername] = useState(
-    route?.params?.formData?.email?.split('@')[0],
-  );
+  const [username, setUsername] = useState(route?.params?.email?.split('@')[0]);
 
   const _onChangeUsername = useCallback(() => {
     setIsChangeUsername(true);
@@ -74,12 +72,17 @@ const WelcomeScreen = ({
 
   const _onNext = useCallback(() => {}, []);
 
+  const _onSubmitChangeUsername = useCallback(() => {}, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <Loading loading={loading} label="Registering..." />
       <View style={styles.body}>
         {isChangeUsername ? (
-          <ChangeUsernameForm onSubmit={() => {}} username={username} />
+          <ChangeUsernameForm
+            onSubmit={_onSubmitChangeUsername}
+            username={username}
+          />
         ) : (
           <WelcomeContent
             onNext={_onNext}
@@ -88,7 +91,7 @@ const WelcomeScreen = ({
           />
         )}
       </View>
-
+      <View style={{flex: 1}} />
       <View style={styles.footer}>
         <Text>
           <Text style={styles.footerText}>
@@ -106,9 +109,14 @@ const WelcomeScreen = ({
 export default WelcomeScreen;
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: '#fff'},
+  container: {
+    backgroundColor: '#fff',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   body: {
-    marginHorizontal: 20,
+    width: SCREEN_WIDTH * 0.9,
   },
   content: {
     width: '100%',

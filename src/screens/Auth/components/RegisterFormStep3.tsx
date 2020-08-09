@@ -105,7 +105,7 @@ const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
 
             <Button
               label="Next"
-              disabled={!isValid || !dirty}
+              disabled={!isValid}
               onPress={handleSubmit}
               style={{width: SCREEN_WIDTH * 0.9}}
             />

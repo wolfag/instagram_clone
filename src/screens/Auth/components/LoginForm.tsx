@@ -44,14 +44,12 @@ const LoginForm = ({onSubmit}: LoginFormProps): JSX.Element => {
               name="username"
               autoCapitalize="none"
               placeholder="Username, email or phone number"
-              style={styles.input}
               {...formProps}
             />
             <Input
               name="password"
               placeholder="Password"
               password={true}
-              style={styles.input}
               {...formProps}
             />
             <Button
@@ -72,5 +70,4 @@ const styles = StyleSheet.create({
   container: {
     width: SCREEN_WIDTH * 0.9,
   },
-  input: {marginVertical: 7.5},
 });

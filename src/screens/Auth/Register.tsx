@@ -1,5 +1,11 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import {KeyboardAvoidingView, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
 import {navigation} from '../../navigation/rootNavigation';
 import RegisterFormStep1, {
@@ -11,13 +17,24 @@ import RegisterFormStep2, {
 import RegisterFormStep3, {
   RegisterFormValueStep3,
 } from './components/RegisterFormStep3';
+import {WelcomeScreenParams} from './Welcome';
+import Button from '../../components/Button';
 
 const RegisterScreen = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [formDataStep1, setFormDataStep1] = useState<RegisterFormValueStep1>();
-  const [formDataStep2, setFormDataStep2] = useState<RegisterFormValueStep2>();
-  const [formDataStep3, setFormDataStep3] = useState<RegisterFormValueStep3>();
+  const [formDataStep1, setFormDataStep1] = useState<RegisterFormValueStep1>({
+    phone: '',
+    email: '',
+  });
+  const [formDataStep2, setFormDataStep2] = useState<RegisterFormValueStep2>({
+    fullname: '',
+    password: '',
+    savePassword: false,
+  });
+  const [formDataStep3, setFormDataStep3] = useState<RegisterFormValueStep3>({
+    birthday: new Date(),
+  });
 
   const [step, setStep] = useState<number>(1);
 
@@ -37,14 +54,20 @@ const RegisterScreen = (): JSX.Element => {
   );
   const _onSubmitStep3 = useCallback(
     (data: RegisterFormValueStep3) => {
-      console.log('====');
       setFormDataStep3(data);
-      navigation.navigate('WelcomeScreen', {
-        formData: {...formDataStep1, ...formDataStep2, formDataStep3},
-      });
+      const formData: WelcomeScreenParams = {
+        ...formDataStep1,
+        ...formDataStep2,
+        ...formDataStep3,
+      };
+      navigation.navigate('WelcomeScreen', formData);
     },
     [formDataStep1, formDataStep2, formDataStep3],
   );
+
+  const _onLogin = useCallback(() => {
+    navigation.navigate('LoginScreen');
+  }, []);
 
   const _height = useMemo(() => {
     if (step > 1) {
@@ -74,6 +97,12 @@ const RegisterScreen = (): JSX.Element => {
         {step === 2 && <RegisterFormStep2 onSubmit={_onSubmitStep2} />}
         {step === 3 && <RegisterFormStep3 onSubmit={_onSubmitStep3} />}
       </KeyboardAvoidingView>
+      <View style={{flex: 1}} />
+      <Button link onPress={_onLogin} style={styles.btnLogin}>
+        <Text style={styles.alreadyHaveAccText}>
+          Already have account? <Text style={styles.loginText}>Login</Text>.
+        </Text>
+      </Button>
     </SafeAreaView>
   );
 };
@@ -90,5 +119,22 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  btnLogin: {
+    height: 50,
+    borderTopColor: '#ddd',
+    borderTopWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  alreadyHaveAccText: {
+    textAlign: 'center',
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#333',
+  },
+  loginText: {
+    fontWeight: '600',
+    color: '#000',
   },
 });
