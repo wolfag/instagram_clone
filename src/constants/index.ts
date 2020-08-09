@@ -5,6 +5,10 @@ export const STATUS_BAR_HEIGHT: number = getStatusBarHeight();
 export const SCREEN_WIDTH: number = Dimensions.get('window').width;
 export const SCREEN_HEIGHT: number = Dimensions.get('window').height;
 
+export const DATE_FORMAT: string = 'YYYY-MMM-DD';
+export const MIN_AGE: number = 16;
+export const MAX_AGE: number = 50;
+
 export type SettingNavigation = {
   icon?: string;
   name: string;
