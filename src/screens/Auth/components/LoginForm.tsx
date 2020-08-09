@@ -22,13 +22,14 @@ export interface LoginFormProps {
 }
 
 const LoginForm = ({onSubmit, loading}: LoginFormProps): JSX.Element => {
-  const validationSchema = yup.object().shape(
-    {
-      username: yup.string().label('Username').required(),
-      password: yup.string().label('Password').required(),
-    },
-    ['username', 'password'],
-  );
+  const validationSchema = yup.object().shape({
+    username: yup.string().label('Username').required(),
+    password: yup
+      .string()
+      .label('Password')
+      .min(6, 'Password must be more than 6 character')
+      .required(),
+  });
 
   return (
     <Formik

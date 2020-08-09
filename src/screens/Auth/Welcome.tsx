@@ -64,7 +64,9 @@ const WelcomeScreen = ({
 }: WelcomeScreenProps): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isChangeUsername, setIsChangeUsername] = useState<boolean>(false);
-  const [username, setUsername] = useState(route?.params?.email?.split('@')[0]);
+  const [username, setUsername] = useState(
+    route?.params?.email?.split('@')[0] || route?.params?.phone,
+  );
 
   const _onChangeUsername = useCallback(() => {
     setIsChangeUsername(true);

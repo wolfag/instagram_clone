@@ -27,11 +27,16 @@ export interface RegisterFormStep2Props {
 
 const RegisterFormStep2 = ({onSubmit}: RegisterFormStep2Props): JSX.Element => {
   const validationSchema = yup.object().shape({
-    fullname: yup.string().label('Fullname').matches(/\w+/).required(),
+    fullname: yup
+      .string()
+      .label('Fullname')
+      .min(6, 'Fullname must be more than 6 character')
+      .matches(/\w+/)
+      .required(),
     password: yup
       .string()
       .label('Password')
-      .min(7, 'Password must be more than 6 character')
+      .min(6, 'Password must be more than 6 character')
       .required(),
     savePassword: yup.boolean(),
   });

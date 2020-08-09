@@ -32,8 +32,9 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
           then: yup
             .string()
             .label('Phone')
-            .min(6)
-            .matches(/\d{6,}/)
+            .min(7)
+            .max(15)
+            .matches(/\d{7,15}/)
             .required(),
         }),
         email: yup.string().when('phone', {

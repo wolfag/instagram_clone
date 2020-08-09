@@ -22,12 +22,13 @@ const ChangeUsernameForm = ({
   username,
 }: ChangeUsernameFormProps & ChangeUsernameFormValue): JSX.Element => {
   const initialValues: ChangeUsernameFormValue = {username};
-  const validationSchema = yup.object().shape(
-    {
-      username: yup.string().label('Username').required(),
-    },
-    ['username'],
-  );
+  const validationSchema = yup.object().shape({
+    username: yup
+      .string()
+      .label('Username')
+      .min(6, 'Username must be more than 6 character')
+      .required(),
+  });
 
   return (
     <Formik

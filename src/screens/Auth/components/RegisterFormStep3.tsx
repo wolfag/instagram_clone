@@ -24,7 +24,7 @@ export interface RegisterFormStep3Props {
 
 const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
   const validationSchema = yup.object().shape({
-    birthday: yup.string().label('Birthday').required(),
+    birthday: yup.date().label('Birthday').required(),
   });
 
   const maxDate = useMemo(() => {
