@@ -11,14 +11,14 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import {styles as commonStyles} from './styles';
 
-export interface CheckboxProps {
+export interface CheckBoxFieldProps {
   name: string;
   style?: StyleProp<ViewStyle>;
   label?: string;
   showError?: boolean;
 }
 
-const Checkbox = ({
+const CheckBoxField = ({
   style,
   label,
   name,
@@ -27,7 +27,7 @@ const Checkbox = ({
   touched,
   setFieldValue,
   showError,
-}: CheckboxProps & FormikProps<FormikValues>) => {
+}: CheckBoxFieldProps & FormikProps<FormikValues>) => {
   const _checkColor = useMemo(() => {
     const value = values[name];
     return value ? '#318bfb' : '#666';
@@ -42,8 +42,10 @@ const Checkbox = ({
   }, [setFieldValue, values, name]);
 
   return (
-    <View style={[styles.checkboxContainer, style]}>
-      <TouchableOpacity onPress={_onToggle} style={[styles.checkboxContainer]}>
+    <View style={[styles.CheckBoxFieldContainer, style]}>
+      <TouchableOpacity
+        onPress={_onToggle}
+        style={[styles.CheckBoxFieldContainer]}>
         <Feather name={_checkName} color={_checkColor} size={20} />
         <Text style={[styles.label, {color: _checkColor}]}>{label}</Text>
       </TouchableOpacity>
@@ -56,11 +58,11 @@ const Checkbox = ({
   );
 };
 
-export default Checkbox;
+export default CheckBoxField;
 
 const styles = StyleSheet.create({
   container: {},
-  checkboxContainer: {
+  CheckBoxFieldContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',

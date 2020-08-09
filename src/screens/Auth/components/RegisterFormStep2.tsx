@@ -3,7 +3,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import * as yup from 'yup';
 import MyButton from '../../../components/MyButton';
-import Checkbox from '../../../components/Checkbox';
+import CheckBoxField from '../../../components/CheckBoxField';
 import Input from '../../../components/Input';
 
 export interface RegisterFormValueStep2 {
@@ -69,7 +69,7 @@ const RegisterFormStep2 = ({onSubmit}: RegisterFormStep2Props): JSX.Element => {
                 returnKeyType="done"
                 {...formProps}
               />
-              <Checkbox
+              <CheckBoxField
                 name="savePassword"
                 label="Save password"
                 {...formProps}
