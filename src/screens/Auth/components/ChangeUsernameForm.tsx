@@ -2,7 +2,7 @@ import {Formik, FormikHelpers, FormikProps, FormikValues} from 'formik';
 import React from 'react';
 import {Text, View} from 'react-native';
 import * as yup from 'yup';
-import Button from '../../../components/Button';
+import MyButton from '../../../components/MyButton';
 import Input from '../../../components/Input';
 import {styles as parentStyle} from '../Welcome';
 
@@ -52,7 +52,7 @@ const ChangeUsernameForm = ({
               placeholder="Username"
               {...formProps}
             />
-            <Button
+            <MyButton
               onPress={handleSubmit}
               disabled={!isValid || !dirty}
               label="Next"

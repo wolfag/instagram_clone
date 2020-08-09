@@ -9,7 +9,7 @@ import {
   TextStyle,
 } from 'react-native';
 
-export interface ButtonProps {
+export interface MyButtonProps {
   style?: StyleProp<ViewStyle>;
   label?: string;
   labelStyle?: StyleProp<TextStyle>;
@@ -17,14 +17,14 @@ export interface ButtonProps {
   children?: JSX.Element | JSX.Element[];
 }
 
-const Button = ({
+const MyButton = ({
   style,
   labelStyle,
   label,
   link,
   children,
   ...rest
-}: ButtonProps & TouchableOpacityProps) => {
+}: MyButtonProps & TouchableOpacityProps) => {
   const btnStyle = link ? styles.link : styles.btn;
   const lbStyle = link ? styles.labelLink : styles.label;
   return (
@@ -37,7 +37,7 @@ const Button = ({
   );
 };
 
-export default Button;
+export default MyButton;
 
 const styles = StyleSheet.create({
   container: {},

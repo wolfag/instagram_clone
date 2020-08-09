@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import logoImg from '../../assets/images/logo.png';
-import Button from '../../components/Button';
+import MyButton from '../../components/MyButton';
 import Loading from '../../components/Loading';
 import {SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT} from '../../constants';
 import {navigation} from '../../navigation/rootNavigation';
@@ -32,10 +32,10 @@ const LoginScreen = (): JSX.Element => {
     <SafeAreaView style={styles.container}>
       <Loading loading={loading} label="Loading..." />
       <View style={styles.languageChooser}>
-        <Button link style={styles.btnCurLanguage}>
+        <MyButton link style={styles.btnCurLanguage}>
           <Text style={styles.curLanguage}>Tieng Viet (Viet Nam)</Text>
           <MaterialCommunityIcons name="chevron-down" size={20} color="#333" />
-        </Button>
+        </MyButton>
       </View>
       <View style={styles.centerContainer}>
         <View style={styles.logoWrapper}>
@@ -47,26 +47,26 @@ const LoginScreen = (): JSX.Element => {
             <Text style={styles.forgetText}>
               Did your forget login information?
             </Text>
-            <Button link label="Get helping to login" />
+            <MyButton link label="Get helping to login" />
           </View>
           <View style={styles.divideLine}>
             <View style={styles.orTextWrapper}>
               <Text style={styles.orText}>OR</Text>
             </View>
           </View>
-          <Button link style={styles.btnLoginWithFacebook}>
+          <MyButton link style={styles.btnLoginWithFacebook}>
             <MaterialCommunityIcons name="facebook" size={20} color="#318bfb" />
             <Text style={styles.loginFacebookText}>Login with Facebook</Text>
-          </Button>
+          </MyButton>
         </View>
       </View>
 
-      <Button link onPress={_onRegister} style={styles.registerWrapper}>
+      <MyButton link onPress={_onRegister} style={styles.registerWrapper}>
         <Text style={styles.dontHaveAccTextWrapper}>
           <Text style={styles.dontHaveAccText}>Don't have account?</Text>{' '}
           Register now.
         </Text>
-      </Button>
+      </MyButton>
     </SafeAreaView>
   );
 };

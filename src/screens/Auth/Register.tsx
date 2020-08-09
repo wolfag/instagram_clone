@@ -18,7 +18,7 @@ import RegisterFormStep3, {
   RegisterFormValueStep3,
 } from './components/RegisterFormStep3';
 import {WelcomeScreenParams} from './Welcome';
-import Button from '../../components/Button';
+import MyButton from '../../components/MyButton';
 
 const RegisterScreen = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -98,11 +98,11 @@ const RegisterScreen = (): JSX.Element => {
         {step === 3 && <RegisterFormStep3 onSubmit={_onSubmitStep3} />}
       </KeyboardAvoidingView>
       <View style={{flex: 1}} />
-      <Button link onPress={_onLogin} style={styles.btnLogin}>
+      <MyButton link onPress={_onLogin} style={styles.btnLogin}>
         <Text style={styles.alreadyHaveAccText}>
           Already have account? <Text style={styles.loginText}>Login</Text>.
         </Text>
-      </Button>
+      </MyButton>
     </SafeAreaView>
   );
 };

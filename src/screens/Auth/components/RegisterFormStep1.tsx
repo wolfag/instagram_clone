@@ -3,7 +3,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import * as yup from 'yup';
-import Button from '../../../components/Button';
+import MyButton from '../../../components/MyButton';
 import Input from '../../../components/Input';
 import PhoneInput from '../../../components/PhoneInput';
 
@@ -126,7 +126,7 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
                   />
                 )}
 
-                <Button
+                <MyButton
                   disabled={!isValid || !dirty}
                   label="Next"
                   onPress={handleSubmit}

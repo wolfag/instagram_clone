@@ -4,7 +4,7 @@ import {StyleSheet, View} from 'react-native';
 import * as yup from 'yup';
 import Input from '../../../components/Input';
 import {SCREEN_WIDTH} from '../../../constants';
-import Button from '../../../components/Button';
+import MyButton from '../../../components/MyButton';
 
 export interface LoginFormValue {
   username: string;
@@ -52,7 +52,7 @@ const LoginForm = ({onSubmit}: LoginFormProps): JSX.Element => {
               password={true}
               {...formProps}
             />
-            <Button
+            <MyButton
               onPress={handleSubmit}
               disabled={!isValid || !dirty}
               label="Login"

@@ -2,7 +2,7 @@ import {Formik, FormikProps, FormikValues, FormikHelpers} from 'formik';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import * as yup from 'yup';
-import Button from '../../../components/Button';
+import MyButton from '../../../components/MyButton';
 import Checkbox from '../../../components/Checkbox';
 import Input from '../../../components/Input';
 
@@ -75,17 +75,17 @@ const RegisterFormStep2 = ({onSubmit}: RegisterFormStep2Props): JSX.Element => {
                 {...formProps}
               />
 
-              <Button
+              <MyButton
                 onPress={handleSubmit}
                 disabled={!isValid || !dirty}
                 label="Continue Without Syncing Contacts"
               />
 
-              <Button link>
+              <MyButton link>
                 <Text style={styles.continueWithoutSyn}>
                   Continue Without Syncing Contacts
                 </Text>
-              </Button>
+              </MyButton>
             </View>
           </View>
         );

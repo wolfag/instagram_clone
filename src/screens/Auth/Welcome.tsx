@@ -2,7 +2,7 @@ import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useCallback, useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import Button from '../../components/Button';
+import MyButton from '../../components/MyButton';
 import Loading from '../../components/Loading';
 import {SCREEN_HEIGHT, STATUS_BAR_HEIGHT, SCREEN_WIDTH} from '../../constants';
 import {CommonParamList} from '../../navigation/RootTab';
@@ -47,8 +47,8 @@ const WelcomeContent = ({
           'Find people to follow and start sharing photos.\nYou can change you username anytime.'
         }
       </Text>
-      <Button onPress={onNext} label="Next" />
-      <Button
+      <MyButton onPress={onNext} label="Next" />
+      <MyButton
         onPress={onChangeUsername}
         link
         label="Change username"

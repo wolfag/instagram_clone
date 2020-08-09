@@ -4,7 +4,7 @@ import React, {useMemo} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import * as yup from 'yup';
-import Button from '../../../components/Button';
+import MyButton from '../../../components/MyButton';
 import {DATE_FORMAT, SCREEN_WIDTH, MIN_AGE, MAX_AGE} from '../../../constants';
 
 export interface RegisterFormValueStep3 {
@@ -103,7 +103,7 @@ const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
               </Text>
             </View>
 
-            <Button
+            <MyButton
               label="Next"
               disabled={!isValid}
               onPress={handleSubmit}
