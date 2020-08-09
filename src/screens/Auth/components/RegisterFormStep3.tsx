@@ -1,18 +1,19 @@
-import {Formik, FormikProps, FormikValues, FormikHelpers} from 'formik';
-import React from 'react';
+import {Formik, FormikHelpers, FormikProps, FormikValues} from 'formik';
+import moment from 'moment';
+import React, {useMemo} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import DatePicker from 'react-native-datepicker';
 import * as yup from 'yup';
 import Button from '../../../components/Button';
-import DatePicker from '../../../components/DatePicker';
-import {SCREEN_WIDTH} from '../../../constants';
+import {DATE_FORMAT, SCREEN_WIDTH, MIN_AGE, MAX_AGE} from '../../../constants';
 
 export interface RegisterFormValueStep3 {
-  date: number;
-  month: number;
-  year: number;
+  birthday: Date;
 }
 
-const initialValues: RegisterFormValueStep3 = {date: 1, month: 1, year: 2020};
+const initialValues: RegisterFormValueStep3 = {
+  birthday: new Date(moment().subtract(MIN_AGE, 'year').toString()),
+};
 
 export interface RegisterFormStep3Props {
   onSubmit: (
@@ -23,10 +24,16 @@ export interface RegisterFormStep3Props {
 
 const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
   const validationSchema = yup.object().shape({
-    date: yup.number().min(1).max(31).required(),
-    month: yup.string().min(0).max(11).required(),
-    year: yup.number().min(1900).max(2020).required(),
+    birthday: yup.string().label('Birthday').required(),
   });
+
+  const maxDate = useMemo(() => {
+    return moment().subtract(MIN_AGE, 'year').format(DATE_FORMAT).toString();
+  }, []);
+
+  const minDate = useMemo(() => {
+    return moment().subtract(MAX_AGE, 'year').format(DATE_FORMAT).toString();
+  }, []);
 
   return (
     <Formik
@@ -36,7 +43,17 @@ const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
       validationSchema={validationSchema}
       initialValues={initialValues}>
       {(formProps: FormikProps<FormikValues>) => {
-        const {handleSubmit, isValid, dirty, handleChange, values} = formProps;
+        const {
+          handleSubmit,
+          isValid,
+          dirty,
+          handleChange,
+          values,
+          errors,
+          touched,
+          setFieldTouched,
+        } = formProps;
+        const age = moment().diff(moment(values.birthday, DATE_FORMAT), 'year');
         return (
           <View style={styles.formContainer}>
             <View>
@@ -54,9 +71,29 @@ const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
             </View>
             <View style={styles.birthdayInputWrapper}>
               <View style={styles.birthdayInput}>
-                <Text>{JSON.stringify(values)}</Text>
+                <DatePicker
+                  date={values.birthday}
+                  mode="date"
+                  placeholder="select date"
+                  format={DATE_FORMAT}
+                  minDate={minDate}
+                  maxDate={maxDate}
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  showIcon={false}
+                  customStyles={{
+                    dateInput: {
+                      borderColor: 'transparent',
+                      borderWidth: 0,
+                    },
+                  }}
+                  onDateChange={(date: string) => {
+                    handleChange('birthday')(date);
+                    setFieldTouched('birthday', true, true);
+                  }}
+                />
                 <View style={styles.currentYear}>
-                  <Text>20 Years Old</Text>
+                  <Text>{`${age} Years Old`}</Text>
                 </View>
               </View>
 
@@ -71,21 +108,6 @@ const RegisterFormStep3 = ({onSubmit}: RegisterFormStep3Props): JSX.Element => {
               disabled={!isValid || !dirty}
               onPress={handleSubmit}
               style={{width: SCREEN_WIDTH * 0.9}}
-            />
-
-            <DatePicker
-              defaultDate={1}
-              defaultMonth="Jan"
-              defaultYear={2020}
-              onDateChange={(date: number) => {
-                handleChange('date')(`${date}`);
-              }}
-              onMonthIndexChange={(index: number) => {
-                handleChange('month')(`${index}`);
-              }}
-              onYearChange={(year: number) => {
-                handleChange('year')(`${year}`);
-              }}
             />
           </View>
         );

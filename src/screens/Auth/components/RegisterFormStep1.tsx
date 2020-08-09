@@ -111,6 +111,7 @@ const RegisterFormStep1 = ({onSubmit}: RegisterFormStep1Props): JSX.Element => {
                     placeholder="Phone"
                     keyboardType="number-pad"
                     returnKeyType="done"
+                    maxLength={20}
                     {...formProps}
                   />
                 )}
